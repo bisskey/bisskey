@@ -1,6 +1,9 @@
 export type PostDataItem = {
   id: string,
-  channelId: string,
+  channel: {
+    id: string,
+    name: string
+  },
   bissKey: string
 }
 

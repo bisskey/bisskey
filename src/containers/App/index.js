@@ -17,11 +17,40 @@ const SCWrapper = styled.div`
 class App extends Component {
   render () {
     const data = {
-      '10-06-2017': [
+      '10 JUNI 2017': [
         {
           id: 'kdj',
-          channelId: 'tvone',
+          channel: {
+            id: 'tvone',
+            name: 'TV ONE'
+          },
           bissKey: '9847DCE99873AED8'
+        },
+        {
+          id: 'sdf',
+          channel: {
+            id: 'rcti',
+            name: 'RCTI'
+          },
+          bissKey: 'FFFFDCE99873AED8'
+        }
+      ],
+      '9 JUNI 2017': [
+        {
+          id: 'kdj',
+          channel: {
+            id: 'tvone',
+            name: 'TV ONE'
+          },
+          bissKey: '9847DCE99873AED8'
+        },
+        {
+          id: 'sdf',
+          channel: {
+            id: 'rcti',
+            name: 'RCTI'
+          },
+          bissKey: 'FFFFDCE99873AED8'
         }
       ]
     }
