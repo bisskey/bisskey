@@ -1,21 +1,23 @@
 // @flow
 
 import React, { Component } from 'react'
-import logo from '../../assets/icons/logo.svg'
-import './App.css'
+import styled from 'styled-components'
+import Header from '../../components/Header'
+import { color } from '../../constants/styles'
+
+const SCWrapper = styled.div`
+  background-color: ${color.backgroundApp};
+  min-height: 100vh;
+  max-width: 520px;
+  margin: 0 auto;
+`
 
 class App extends Component {
   render () {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <SCWrapper className="wrapper">
+        <Header/>
+      </SCWrapper>
     )
   }
 }
