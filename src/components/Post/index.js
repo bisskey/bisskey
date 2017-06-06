@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import PostItem from './Item'
-import type { PropsPost } from './Item'
+import type { PostData } from './type'
 
 const SCLabel = styled.label`
   text-align: center;
@@ -11,12 +11,10 @@ const SCLabel = styled.label`
 
 class Post extends Component {
   props: {
-    data: {
-      [string]: PropsPost[]
-    }
+    data: PostData
   }
 
-  parseData (data) {
+  parseData (data: PostData) {
     return Object.keys(data)
       .map(key => data[key].map(item => {
         return (

@@ -2,12 +2,7 @@
 
 import React, { Component } from 'react'
 import styled from 'styled-components'
-
-export type PropsPost = {
-  id: string,
-  channelId: string,
-  bissKey: string
-}
+import type { PostDataItem } from './type'
 
 const SCItem = styled.div`
   text-align: left;
@@ -21,7 +16,7 @@ const SCItem = styled.div`
 `
 
 class PostItem extends Component {
-  props: PropsPost
+  props: PostDataItem
 
   render () {
     const { data } = this.props
