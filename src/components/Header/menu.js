@@ -34,7 +34,7 @@ const SCLi = styled.li`
 `
 
 class HeaderMenu extends Component {
-  listMenu (label, icon, active = false) {
+  listMenu (label: string, icon: any, active: boolean = false) {
     let props = {}
     if (active) {
       props = Object.assign({}, {

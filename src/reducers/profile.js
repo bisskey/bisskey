@@ -1,10 +1,19 @@
 // @flow
 
 import * as types from '../constants/actionTypes'
+import type { actionReducer } from './type'
 
-const initialState = {}
+export type profileStateAvailableType = {
+  picture: Object | void,
+  name: string,
+  id: string
+}
 
-export default function auth (state = initialState, action) {
+export type profileStateType = profileStateAvailableType | Object
+
+const initialState: profileStateType = {}
+
+export default function auth (state: profileStateType = initialState, action: actionReducer) {
   switch (action.type) {
     case types.PROFILE_SET:
       return Object.assign({}, state, action.payload)

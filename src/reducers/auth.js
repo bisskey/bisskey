@@ -1,13 +1,26 @@
 // @flow
 
 import * as types from '../constants/actionTypes'
+import type { actionReducer } from './type'
 
-const initialState = {
+export type authResponseType = {
+  accessToken: string,
+  userID: string,
+  expiresIn: number,
+  signedRequest: string
+}
+
+export type authStateType = {
+  authResponse: authResponseType | void,
+  status: 'unknown' | 'not_authorized' | 'connected'
+}
+
+const initialState: authStateType = {
   authResponse: undefined,
   status: 'unknown'
 }
 
-export default function auth (state = initialState, action) {
+export default function auth (state: authStateType = initialState, action: actionReducer) {
   switch (action.type) {
     case types.AUTH_SET:
       return Object.assign({}, state, action.payload)

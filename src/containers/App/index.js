@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+// $FlowFixMe
 import Script from 'react-load-script'
 import { initAuth, resetAuth } from '../../actions/auth'
 import { initProfile } from '../../actions/profile'

@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import Menu from './menu'
 import { color } from '../../constants/styles'
 
+import type { authStateType } from '../../reducers/auth'
+
 const SCHeader = styled.header`
   background-color: ${color.darkBlue};
   min-height: 65px;
@@ -29,18 +31,14 @@ class Header extends Component {
     fb.logout()
   }
 
-  profileInit (authResponse) {
-    return (
-      <SCNav>
-        <Menu/>
-      </SCNav>
-    )
-  }
-
-  handleLogin (auth) {
+  handleLogin (auth: authStateType) {
     switch (auth.status) {
       case 'connected':
-        return this.profileInit(auth.authResponse)
+        return (
+          <SCNav>
+            <Menu/>
+          </SCNav>
+        )
       case 'unknown':
         return (
           <div
