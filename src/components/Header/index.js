@@ -42,7 +42,6 @@ class Header extends Component {
   }
 
   handleLogin (auth) {
-    console.log(auth.status === 'unknown')
     switch (auth.status) {
       case 'connected':
         return this.profileInit(auth.authResponse)
