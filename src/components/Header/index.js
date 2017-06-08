@@ -2,14 +2,14 @@
 
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import Menu from './menu'
 import { color } from '../../constants/styles'
 
 const SCHeader = styled.header`
   background-color: ${color.darkBlue};
-  height: 65px;
+  min-height: 65px;
   width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
   text-transform: capitalize;
   color: ${color.headerLightWhite};
@@ -17,6 +17,10 @@ const SCHeader = styled.header`
     color: #FFF !IMPORTANT;
     text-decoration: none;
   }
+`
+
+const SCNav = styled.nav`
+  width: 100%;
 `
 
 class Header extends Component {
@@ -27,9 +31,9 @@ class Header extends Component {
 
   profileInit (authResponse) {
     return (
-      <button onClick={this.handleLogout.bind(this)}>
-        Logout, {this.props.profile.name}
-      </button>
+      <SCNav>
+        <Menu/>
+      </SCNav>
     )
   }
 
@@ -47,7 +51,7 @@ class Header extends Component {
             data-show-faces="false"
             data-auto-logout-link="false"
             data-use-continue-as="false"
-          />
+          ></div>
         )
       case 'not_authorized':
       default:
