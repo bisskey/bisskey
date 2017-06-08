@@ -44,6 +44,7 @@ class Header extends Component {
       case 'unknown':
         return (
           <div
+            style={{margin: '0 auto'}}
             className="fb-login-button"
             data-max-rows="1"
             data-size="large"
