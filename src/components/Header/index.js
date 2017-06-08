@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react'
 import styled from 'styled-components'
-// import { initProfile } from '../../actions/profile'
 import { color } from '../../constants/styles'
 
 const SCHeader = styled.header`
@@ -27,16 +26,9 @@ class Header extends Component {
   }
 
   profileInit (authResponse) {
-    const { fb } = this.props
-
-    fb.api('/me', {
-      access_token: authResponse.accessToken
-    }, response => {
-    })
-
     return (
       <button onClick={this.handleLogout.bind(this)}>
-        Logout
+        Logout, {this.props.profile.name}
       </button>
     )
   }

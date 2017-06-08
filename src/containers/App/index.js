@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Script from 'react-load-script'
 import { initAuth, resetAuth } from '../../actions/auth'
+import { initProfile } from '../../actions/profile'
 import { color } from '../../constants/styles'
 import Header from '../../components/Header'
 import Post from '../../components/Post'
@@ -60,6 +61,8 @@ const data = {
 class App extends Component {
   handleScriptLoad () {
     const { dispatch } = this.props
+    const loadProfile = this.loadProfile
+
     if (!fb) {
       fb = window.FB
     }
@@ -71,13 +74,16 @@ class App extends Component {
       version: 'v2.9'
     })
 
-    fb.login(response => {
-    }, {
-      scope: 'email'
+    this.checkLogin().then(response => {
+      if (response.status === 'connected') {
+        dispatch(initAuth(response))
+        this.loadProfile(response).then(res => dispatch(initProfile(res)))
+      }
     })
 
     fb.Event.subscribe('auth.login', function (response) {
       dispatch(initAuth(response))
+      loadProfile(response).then(res => dispatch(initProfile(res)))
     })
 
     fb.Event.subscribe('auth.logout', function (response) {
@@ -86,7 +92,15 @@ class App extends Component {
     })
   }
 
-  get checkLogin () {
+  loadProfile (response) {
+    return new Promise(resolve => {
+      fb.api('/me?fields=email,picture,name', {
+        access_token: response.accessToken
+      }, response => resolve(response))
+    })
+  }
+
+  checkLogin () {
     return new Promise(resolve => {
       fb.getLoginStatus(response => resolve(response))
     })
@@ -111,9 +125,10 @@ class App extends Component {
 }
 
 function mapStateToProps (state) {
-  const { auth } = state
+  const { auth, profile } = state
   return {
-    auth
+    auth,
+    profile
   }
 }
 

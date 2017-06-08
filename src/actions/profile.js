@@ -6,3 +6,9 @@ export const initProfile = (state) => {
     payload: state
   }
 }
+
+export const resetProfile = (state) => {
+  return {
+    type: types.PROFILE_RESET
+  }
+}
