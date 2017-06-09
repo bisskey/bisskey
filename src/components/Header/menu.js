@@ -63,18 +63,23 @@ const SCLiSpecial = styled(SCLi)`
     .header-menu__label {
       display: none;
     }
-  }
-  &:before {
-    content: "";
-    position: absolute;
-    background: ${color.darkBlue};
-    width: 90px;
-    height: 90px;
-    left: 50%;
-    top: 0rem;
-    border-radius: 100%;
-    z-index: 0;
-    transform: translateX(-50%)
+    &.active {
+      &:before {
+        background-color: #135079;
+      }
+    }
+    &:before {
+      content: "";
+      position: absolute;
+      background-color: ${color.darkBlue};
+      width: 90px;
+      height: 90px;
+      left: 50%;
+      top: 0rem;
+      border-radius: 100%;
+      z-index: 0;
+      transform: translateX(-50%)
+    }
   }
 `
 
