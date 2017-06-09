@@ -6,11 +6,15 @@ import styled from 'styled-components'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 // $FlowFixMe
 import Script from 'react-load-script'
+
 import Post from '../../containers/Post'
 import Profile from '../../containers/Profile'
+
 import { initAuth, resetAuth } from '../../actions/auth'
 import { initProfile } from '../../actions/profile'
+
 import { color } from '../../constants/styles'
+
 import Header from '../../components/Header'
 
 let fb

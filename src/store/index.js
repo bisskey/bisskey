@@ -3,6 +3,7 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 // $FlowFixMe
 import thunkMiddleware from 'redux-thunk'
+
 import rootReducer from '../reducers/index'
 
 export default function configureStore (initialState: Object | void) {

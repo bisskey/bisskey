@@ -2,7 +2,9 @@
 
 import React, { Component } from 'react'
 import styled from 'styled-components'
+
 import Menu from './menu'
+
 import { color } from '../../constants/styles'
 
 import type { authStateType } from '../../reducers/auth'

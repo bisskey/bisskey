@@ -3,10 +3,12 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
+
 import NewsPaperIcon from './icons/newspaper'
 import UserIcon from './icons/user'
 import GearIcon from './icons/gear'
 import PlusIcon from './icons/plus'
+
 import { color } from '../../constants/styles'
 
 const SCIcon = styled.div`

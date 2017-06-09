@@ -2,7 +2,9 @@
 
 import React, { Component } from 'react'
 import styled from 'styled-components'
+
 import PostItem from './Item'
+
 import type { PostData } from './type'
 
 const SCLabel = styled.label`
