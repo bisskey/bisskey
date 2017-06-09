@@ -24,41 +24,45 @@ const SCUl = styled.ul`
 
 const SCLi = styled.li`
   position: relative;
-  padding: 10px 0;
   flex: 1;
-  align-items: center;
+  align-items: initial;
   text-align: center;
   font-weight: 300;
-  color: ${props => props['data-active'] ? '#FFF' : color.headerLightWhite};
-  background-color: ${props => props['data-active'] ? 'rgba(0, 0, 0, 0.1)' : 'inherit'};
+  display: flex;
   svg {
-    fill: ${props => props['data-active'] ? '#FFF' : color.headerLightWhite};
+    fill: ${color.headerLightWhite};
   }
-  > div {
-    position: relative;
-    z-index: 1;
-  }
-  > a:before {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    content: "";
-    z-index: 1;
+  > a {
+    color: ${color.headerLightWhite} !IMPORTANT;
+    justify-content: center;
+    flex: 1;
+    padding: 10px;
+    &.active {
+      color: #FFF !IMPORTANT;
+      background-color: ${color.headerLightBlack};
+      svg {
+        fill: #FFF;
+      }
+    }
+    > div {
+      position: relative;
+      z-index: 1;
+    }
   }
 `
 
 const SCLiSpecial = styled(SCLi)`
-  .header-menu__icon {
-    top: 3px;
-    display: initial;
-    svg {
-      width: 55px;
+  > a {
+    .header-menu__icon {
+      top: 3px;
+      display: initial;
+      svg {
+        width: 55px;
+      }
     }
-  }
-  .header-menu__label {
-    display: none;
+    .header-menu__label {
+      display: none;
+    }
   }
   &:before {
     content: "";
@@ -78,7 +82,6 @@ type menuType = {
   label: string,
   to: string,
   icon: any,
-  active?: boolean,
   special?: boolean
 }
 
@@ -92,8 +95,7 @@ class HeaderMenu extends Component {
       {
         label: 'Home',
         icon: <NewsPaperIcon/>,
-        to: '/',
-        active: true
+        to: '/'
       },
       {
         label: 'Profile',
@@ -124,16 +126,10 @@ class HeaderMenu extends Component {
       label,
       to,
       icon,
-      special = false,
-      active = false
+      special = false
     } = option
 
     let props = {}
-    if (active) {
-      props = Object.assign({}, {
-        'data-active': active
-      })
-    }
     let Li = SCLi
 
     if (special) {
@@ -145,13 +141,14 @@ class HeaderMenu extends Component {
 
     return (
       <Li {...props} key={`header-menu__${label.toUpperCase()}--${to.toUpperCase()}`}>
-        <SCIcon className="header-menu__icon">
-          {icon}
-        </SCIcon>
-        <div className="header-menu__label">
-          {label}
-        </div>
-        <NavLink to={to}/>
+        <NavLink exact to={to}>
+          <SCIcon className="header-menu__icon">
+            {icon}
+          </SCIcon>
+          <div className="header-menu__label">
+            {label}
+          </div>
+        </NavLink>
       </Li>
     )
   }
