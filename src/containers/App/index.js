@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 // $FlowFixMe
 import Script from 'react-load-script'
 import Post from '../../containers/Post'
+import Profile from '../../containers/Profile'
 import { initAuth, resetAuth } from '../../actions/auth'
 import { initProfile } from '../../actions/profile'
 import { color } from '../../constants/styles'
@@ -81,6 +82,7 @@ class App extends Component {
           <div id="main">
             <Route exact path="/" component={Post}/>
             <Route exact path="/about" render={() => <h1>About Page</h1>}/>
+            <Route exact path="/profile" component={Profile}/>
           </div>
         </SCWrapper>
       </Router>
