@@ -3,13 +3,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 // $FlowFixMe
 import Script from 'react-load-script'
+import Post from '../../containers/Post'
 import { initAuth, resetAuth } from '../../actions/auth'
 import { initProfile } from '../../actions/profile'
 import { color } from '../../constants/styles'
 import Header from '../../components/Header'
-import Post from '../../components/Post'
 
 let fb
 
@@ -19,45 +20,6 @@ const SCWrapper = styled.div`
   max-width: 520px;
   margin: 0 auto;
 `
-
-const data = {
-  '10 JUNI 2017': [
-    {
-      id: 'kdj',
-      channel: {
-        id: 'tvone',
-        name: 'TV ONE'
-      },
-      bissKey: '9847DCE99873AED8'
-    },
-    {
-      id: 'sdf',
-      channel: {
-        id: 'rcti',
-        name: 'RCTI'
-      },
-      bissKey: 'FFFFDCE99873AED8'
-    }
-  ],
-  '9 JUNI 2017': [
-    {
-      id: 'kdj',
-      channel: {
-        id: 'tvone',
-        name: 'TV ONE'
-      },
-      bissKey: '9847DCE99873AED8'
-    },
-    {
-      id: 'sdf',
-      channel: {
-        id: 'rcti',
-        name: 'RCTI'
-      },
-      bissKey: 'FFFFDCE99873AED8'
-    }
-  ]
-}
 
 class App extends Component {
   handleScriptLoad () {
@@ -109,18 +71,19 @@ class App extends Component {
 
   render () {
     return (
-      <SCWrapper className="wrapper">
-        <Script
-          url="https://connect.facebook.net/en_US/sdk.js"
-          onLoad={this.handleScriptLoad.bind(this)}
-        />
-        <Header {...this.props} fb={fb}/>
-        <div id="main">
-          <Post
-            data={data}
+      <Router>
+        <SCWrapper className="wrapper">
+          <Script
+            url="https://connect.facebook.net/en_US/sdk.js"
+            onLoad={this.handleScriptLoad.bind(this)}
           />
-        </div>
-      </SCWrapper>
+          <Header {...this.props} fb={fb}/>
+          <div id="main">
+            <Route exact path="/" component={Post}/>
+            <Route exact path="/about" render={() => <h1>About Page</h1>}/>
+          </div>
+        </SCWrapper>
+      </Router>
     )
   }
 }

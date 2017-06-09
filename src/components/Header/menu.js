@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { NavLink } from 'react-router-dom'
 import NewsPaperIcon from './icons/newspaper'
 import UserIcon from './icons/user'
 import GearIcon from './icons/gear'
@@ -37,6 +38,15 @@ const SCLi = styled.li`
     position: relative;
     z-index: 1;
   }
+  > a:before {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    content: "";
+    z-index: 1;
+  }
 `
 
 const SCLiSpecial = styled(SCLi)`
@@ -64,8 +74,60 @@ const SCLiSpecial = styled(SCLi)`
   }
 `
 
+type menuType = {
+  label: string,
+  to: string,
+  icon: any,
+  active?: boolean,
+  special?: boolean
+}
+
 class HeaderMenu extends Component {
-  listMenu (label: string, icon: any, active: boolean = false, special: boolean = false) {
+  props: {
+    list: menuType[]
+  }
+
+  static defaultProps = {
+    list: [
+      {
+        label: 'Home',
+        icon: <NewsPaperIcon/>,
+        to: '/',
+        active: true
+      },
+      {
+        label: 'Profile',
+        icon: <UserIcon/>,
+        to: '/profile'
+      },
+      {
+        label: 'Add Post',
+        icon: <PlusIcon/>,
+        to: '/add_post',
+        special: true
+      },
+      {
+        label: 'Post',
+        icon: <UserIcon/>,
+        to: '/post'
+      },
+      {
+        label: 'Settings',
+        icon: <GearIcon/>,
+        to: '/settings'
+      }
+    ]
+  }
+
+  renderMenu (option: menuType) {
+    const {
+      label,
+      to,
+      icon,
+      special = false,
+      active = false
+    } = option
+
     let props = {}
     if (active) {
       props = Object.assign({}, {
@@ -82,13 +144,14 @@ class HeaderMenu extends Component {
     }
 
     return (
-      <Li {...props}>
+      <Li {...props} key={`header-menu__${label.toUpperCase()}--${to.toUpperCase()}`}>
         <SCIcon className="header-menu__icon">
           {icon}
         </SCIcon>
         <div className="header-menu__label">
           {label}
         </div>
+        <NavLink to={to}/>
       </Li>
     )
   }
@@ -96,11 +159,7 @@ class HeaderMenu extends Component {
   render () {
     return (
       <SCUl className="header-menu">
-        {this.listMenu('Home', <NewsPaperIcon/>, true)}
-        {this.listMenu('Profile', <UserIcon/>, false)}
-        {this.listMenu('Add', <PlusIcon/>, false, true)}
-        {this.listMenu('Post', <NewsPaperIcon/>, false)}
-        {this.listMenu('Settings', <GearIcon/>, false)}
+        { this.props.list.map(item => this.renderMenu(item)) }
       </SCUl>
     )
   }

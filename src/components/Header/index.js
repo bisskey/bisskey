@@ -16,7 +16,7 @@ const SCHeader = styled.header`
   text-transform: capitalize;
   color: ${color.headerLightWhite};
   a {
-    color: #FFF !IMPORTANT;
+    color: #FFF;
     text-decoration: none;
   }
 `
