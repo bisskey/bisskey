@@ -110,7 +110,7 @@ class HeaderMenu extends Component {
       {
         label: 'Add Post',
         icon: <PlusIcon/>,
-        to: '/add_post',
+        to: '/add-post',
         special: true
       },
       {
