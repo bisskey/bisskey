@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react'
+import React, { Component } from 'react'
 // $FlowFixMe
 import { graphql } from 'react-apollo'
 // $FlowFixMe
@@ -10,26 +10,30 @@ import tinydate from 'tinydate'
 
 import CPost from '../../components/Post'
 
-const parseData = (data) => {
-  let result = {}
+class Post extends Component {
+  parseData (data: {}[]): Object {
+    let result = {}
 
-  if (data) {
-    data.map(item => { // eslint-disable-line array-callback-return
-      const date = tinydate('{DD}-{MM}-{YYYY}')(new Date(item.createdAt))
-      if (result[date]) {
-        (result[date]: {}[]).push(item)
-      } else {
-        result[date] = []
-      }
-    })
+    if (data) {
+      data.map((item: Object) => { // eslint-disable-line array-callback-return
+        const date = tinydate('{DD}-{MM}-{YYYY}')(new Date(item.createdAt))
+        if (result[date]) {
+          (result[date]: {}[]).push(item)
+        } else {
+          result[date] = []
+        }
+      })
+    }
+
+    return result
   }
 
-  return result
-}
-
-const Post = props => {
-  const data = parseData(props.data.allPosts)
-  return <CPost data={data} />
+  render () {
+    const data = this.parseData(this.props.data.allPosts)
+    return (
+      <CPost data={data} />
+    )
+  }
 }
 
 const PostQuery = gql`

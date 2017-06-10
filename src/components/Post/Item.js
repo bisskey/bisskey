@@ -79,6 +79,10 @@ class PostItem extends Component {
     return result.replace(/-$/, '')
   }
 
+  handleIconClick () {
+    console.log('haha')
+  }
+
   render () {
     const { data } = this.props
     return <SCItem className="post-item">
@@ -94,7 +98,7 @@ class PostItem extends Component {
         </div>
       </SCColumnDetail>
       <SCColumnIcon className="post-item-action">
-        <div className="post-item-action__icon">
+        <div className="post-item-action__icon" onClick={this.handleIconClick.bind(this)}>
           <SCImg src={ThumbsUp}/>
         </div>
         <div className="post-item-action__count">
