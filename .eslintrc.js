@@ -1,6 +1,7 @@
 module.exports = {
   env: {
-    jest: true
+    jest: true,
+    browser: true
   },
   parser: 'babel-eslint',
   extends: 'standard',

@@ -1,10 +1,26 @@
 // @flow
 
 import React, { Component } from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+
 import type { PostDataItem } from './type'
+
 import ThumbsUp from '../../assets/icons/thumbs-up.svg'
-// import ThumbsUpActive from '../../assets/icons/thumbs-up-active.svg'
+import ThumbsUpActive from '../../assets/icons/thumbs-up-active.svg'
+// $FlowFixMe
+import PopSound from '../../assets/sounds/pop.wav'
+
+const thumbsAnim = keyframes`
+  5% {
+    transform: scale(1)
+  }
+  30% {
+    transform: scale(1.5)
+  }
+  90% {
+    transform: scale(1)
+  }
+`
 
 const SCItem = styled.div`
   text-align: left;
@@ -15,6 +31,23 @@ const SCItem = styled.div`
   padding: 20px;
   box-sizing: border-box;
   margin: 5px 0;
+  &[data-liked="true"] {
+    .post-item-action__icon {
+      animation: ${thumbsAnim} .5s ease-in-out;
+    }
+    .post-item-action__count {
+      color: #0ab2ff;
+      font-size: .8rem;
+    }
+  }
+  .post-item-action {
+    color: #0ab2ff;
+  }
+  .post-item-action__icon {
+    .svg-icon {
+      background-image : url(${props => props['data-liked'] ? ThumbsUpActive : ThumbsUp});
+    }
+  }
 `
 
 const SCImg = styled.div`
@@ -68,6 +101,17 @@ class PostItem extends Component {
     data: PostDataItem
   }
 
+  state: {
+    liked: boolean
+  }
+
+  constructor (props: any) {
+    super(props)
+    this.state = {
+      liked: false
+    }
+  }
+
   parseBissKey (bissKey: string): string {
     let result = ''
     const max = 4
@@ -79,33 +123,45 @@ class PostItem extends Component {
     return result.replace(/-$/, '')
   }
 
-  handleIconClick () {
-    console.log('haha')
+  handleIconClick (event: MouseEvent) {
+    if (!this.state.liked) {
+      const sound = new global.Audio()
+      sound.src = PopSound
+      sound.play()
+    }
+
+    this.setState({
+      liked: !this.state.liked
+    })
   }
 
   render () {
     const { data } = this.props
-    return <SCItem className="post-item">
-      <SCColumn>
-        <SCImg src={data.channel.image} alt=""/>
-      </SCColumn>
-      <SCColumnDetail className="post-item-detail">
-        <div className="post-item-detail__channel-name">
-          <h2>{ data.channel.name }</h2>
-        </div>
-        <div className="post-item-detail__bisskey">
-          <h4>{this.parseBissKey(data.value)}</h4>
-        </div>
-      </SCColumnDetail>
-      <SCColumnIcon className="post-item-action">
-        <div className="post-item-action__icon" onClick={this.handleIconClick.bind(this)}>
-          <SCImg src={ThumbsUp}/>
-        </div>
-        <div className="post-item-action__count">
-          342
-        </div>
-      </SCColumnIcon>
-    </SCItem>
+     /* eslint-disable no-return-assign */
+    return (
+      <SCItem className="post-item" data-liked={this.state.liked}>
+        <SCColumn>
+          <SCImg src={data.channel.image} alt=""/>
+        </SCColumn>
+        <SCColumnDetail className="post-item-detail">
+          <div className="post-item-detail__channel-name">
+            <h2>{ data.channel.name }</h2>
+          </div>
+          <div className="post-item-detail__bisskey">
+            <h4>{this.parseBissKey(data.value)}</h4>
+          </div>
+        </SCColumnDetail>
+        <SCColumnIcon className="post-item-action">
+          <div className="post-item-action__icon" onClick={this.handleIconClick.bind(this)}>
+            <SCImg className="svg-icon"/>
+          </div>
+          <div className="post-item-action__count">
+            342
+          </div>
+        </SCColumnIcon>
+      </SCItem>
+    )
+    /* eslint-enable no-return-assign */
   }
 }
 
