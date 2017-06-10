@@ -3,15 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "apollo-client": "^1.4.2",
     "auth0-js": "^8.7.0",
+    "graphql-tag": "^2.2.2",
     "react": "^15.5.4",
+    "react-apollo": "^1.4.2",
     "react-dom": "^15.5.4",
     "react-load-script": "^0.0.4",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
-    "styled-components": "^2.0.0"
+    "styled-components": "^2.0.0",
+    "tinydate": "^1.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

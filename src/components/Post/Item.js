@@ -83,14 +83,14 @@ class PostItem extends Component {
     const { data } = this.props
     return <SCItem className="post-item">
       <SCColumn>
-        <SCImg src="http://www.rcti.tv/assets/images/RCTI-logo.png" alt=""/>
+        <SCImg src={data.channel.image} alt=""/>
       </SCColumn>
       <SCColumnDetail className="post-item-detail">
         <div className="post-item-detail__channel-name">
           <h2>{ data.channel.name }</h2>
         </div>
         <div className="post-item-detail__bisskey">
-          <h4>{this.parseBissKey(data.bissKey)}</h4>
+          <h4>{this.parseBissKey(data.value)}</h4>
         </div>
       </SCColumnDetail>
       <SCColumnIcon className="post-item-action">

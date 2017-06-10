@@ -26,24 +26,27 @@ class Post extends Component {
   }
 
   parseData (data: PostData) {
-    return Object.keys(data).map(key => {
-      return (
-        <SCLabel key={`post__item-${key}`}>
-          <SCPostDate className="post__date">
-            <h2>{key}</h2>
-          </SCPostDate>
-          {
-            data[key].map(item => (
-              (
-                <div className="post__list" key={`post__item-${key}--${item.id}`}>
-                  <PostItem data={item}/>
-                </div>
-              )
-            ))
-          }
-        </SCLabel>
-      )
-    })
+    if (data) {
+      return Object.keys(data).map(key => {
+        console.log(key)
+        return (
+          <SCLabel key={`post__item-${key}`}>
+            <SCPostDate className="post__date">
+              <h2>{key}</h2>
+            </SCPostDate>
+            {
+              data[key].map(item => (
+                (
+                  <div className="post__list" key={`post__item-${key}--${item.id}`}>
+                    <PostItem data={item}/>
+                  </div>
+                )
+              ))
+            }
+          </SCLabel>
+        )
+      })
+    }
   }
 
   render () {

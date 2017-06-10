@@ -1,48 +1,52 @@
 // @flow
 
 import React from 'react'
+// $FlowFixMe
+import { graphql } from 'react-apollo'
+// $FlowFixMe
+import gql from 'graphql-tag'
+// $FlowFixMe
+import tinydate from 'tinydate'
 
-import Post from '../../components/Post'
+import CPost from '../../components/Post'
 
-const data = {
-  '10 JUNI 2017': [
-    {
-      id: 'kdj',
-      channel: {
-        id: 'tvone',
-        name: 'TV ONE'
-      },
-      bissKey: '9847DCE99873AED8'
-    },
-    {
-      id: 'sdf',
-      channel: {
-        id: 'rcti',
-        name: 'RCTI'
-      },
-      bissKey: 'FFFFDCE99873AED8'
-    }
-  ],
-  '9 JUNI 2017': [
-    {
-      id: 'kdj',
-      channel: {
-        id: 'tvone',
-        name: 'TV ONE'
-      },
-      bissKey: '9847DCE99873AED8'
-    },
-    {
-      id: 'sdf',
-      channel: {
-        id: 'rcti',
-        name: 'RCTI'
-      },
-      bissKey: 'FFFFDCE99873AED8'
-    }
-  ]
+const parseData = (data) => {
+  let result = {}
+
+  if (data) {
+    data.map(item => { // eslint-disable-line array-callback-return
+      const date = tinydate('{DD}-{MM}-{YYYY}')(new Date(item.createdAt))
+      if (result[date]) {
+        (result[date]: {}[]).push(item)
+      } else {
+        result[date] = []
+      }
+    })
+  }
+
+  return result
 }
 
-export default () => {
-  return <Post data={data} />
+const Post = props => {
+  const data = parseData(props.data.allPosts)
+  return <CPost data={data} />
 }
+
+const PostQuery = gql`
+  query getPost {
+    allPosts {
+      id
+      createdAt
+      value
+      channel {
+        id
+        name
+        image
+      }
+    }
+  }
+`
+
+const PostWithData = graphql(PostQuery)(Post)
+
+export default PostWithData
