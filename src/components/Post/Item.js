@@ -191,12 +191,15 @@ class PostItem extends Component {
 
   componentWillMount () {
     const { data } = this.props
+    let selfLikes = this.state.like
     if (data.selfLikes && data.selfLikes.length > 0) {
-      this.setState({
-        like: data.selfLikes[0],
-        likesCount: data.likes.length
-      })
+      selfLikes = data.selfLikes[0]
     }
+
+    this.setState({
+      like: selfLikes,
+      likesCount: data.likes.length
+    })
   }
 
   render () {
