@@ -17,11 +17,10 @@ class Post extends Component {
     if (data) {
       data.map((item: Object) => { // eslint-disable-line array-callback-return
         const date = tinydate('{DD}-{MM}-{YYYY}')(new Date(item.createdAt))
-        if (result[date]) {
-          (result[date]: {}[]).push(item)
-        } else {
+        if (!result[date]) {
           result[date] = []
         }
+        (result[date]: {}[]).push(item)
       })
     }
 
@@ -30,18 +29,26 @@ class Post extends Component {
 
   render () {
     const data = this.parseData(this.props.data.allPosts)
-    return (
-      <CPost data={data} />
-    )
+    return this.props.data.loading
+      ? <div>Loading ...</div>
+      : <CPost data={data} profile={this.props.profile}/>
   }
 }
 
 const PostQuery = gql`
-  query getPost {
+  query getPost ($self: String) {
     allPosts {
       id
       createdAt
       value
+      selfLikes: likes (filter: {user: {fbId: $self}}) {
+        id
+        value
+      }
+      likes(filter: {value: true}) {
+        id
+        value
+      }
       channel {
         id
         name
@@ -51,6 +58,15 @@ const PostQuery = gql`
   }
 `
 
-const PostWithData = graphql(PostQuery)(Post)
+const PostWithData = graphql(PostQuery, {
+  options: ({ profile, auth }) => {
+    return {
+      variables: {
+        self: (profile && profile.id) || ''
+      },
+      fetchPolicy: true
+    }
+  }
+})(Post)
 
 export default PostWithData

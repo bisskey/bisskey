@@ -22,7 +22,8 @@ const SCPostDate = styled.div`
 
 class Post extends Component {
   props: {
-    data: PostData
+    data: PostData,
+    profile: any
   }
 
   parseData (data: PostData) {
@@ -39,7 +40,7 @@ class Post extends Component {
                   className="post__list"
                   key={`post__item-${key}--${item.id}`}
                 >
-                  <PostItem data={item}/>
+                  <PostItem data={item} profile={this.props.profile}/>
                 </div>
               ))
             }

@@ -29,8 +29,7 @@ const SCNav = styled.nav`
 
 class Header extends Component {
   handleLogout () {
-    const { fb } = this.props
-    fb.logout()
+    window.FB.logout()
   }
 
   handleLogin (auth: authStateType) {

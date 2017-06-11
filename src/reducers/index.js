@@ -8,7 +8,8 @@ import auth from './auth'
 import profile from './profile'
 
 export const client = new ApolloClient({
-  networkInterface: createNetworkInterface({uri: 'https://api.graph.cool/simple/v1/cj3l3d4us3z0y0160svn555bf'})
+  networkInterface: createNetworkInterface({uri: 'https://api.graph.cool/simple/v1/cj3l3d4us3z0y0160svn555bf'}),
+  dataIdFromObject: o => o.id
 })
 
 const reducers = combineReducers({

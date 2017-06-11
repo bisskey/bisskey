@@ -2,6 +2,10 @@
 
 import React, { Component } from 'react'
 import styled, { keyframes } from 'styled-components'
+// $FlowFixMe
+import gql from 'graphql-tag'
+// $FlowFixMe
+import { graphql, compose } from 'react-apollo'
 
 import type { PostDataItem } from './type'
 
@@ -98,17 +102,26 @@ const SCColumnDetail = styled(SCColumn)`
 
 class PostItem extends Component {
   props: {
-    data: PostDataItem
+    data: PostDataItem,
+    client: any,
+    profile: any,
+    updateLike: any,
+    createLike: any
   }
 
   state: {
-    liked: boolean
+    like: Object,
+    likesCount: number
   }
 
-  constructor (props: any) {
+  constructor (props) {
     super(props)
     this.state = {
-      liked: false
+      like: {
+        id: null,
+        value: false
+      },
+      likesCount: 0
     }
   }
 
@@ -123,23 +136,73 @@ class PostItem extends Component {
     return result.replace(/-$/, '')
   }
 
-  handleIconClick (event: MouseEvent) {
-    if (!this.state.liked) {
+  updateLike () {
+    const id = this.state.like.id
+
+    this.props.updateLike({
+      variables: {
+        id,
+        value: !this.state.like.value
+      }
+    }).then(res => {
+      const counted = res.data.updateLike.value
+        ? ++this.state.likesCount
+        : --this.state.likesCount
+
+      this.setState({
+        like: Object.assign({}, this.state.like, {
+          value: res.data.updateLike.value
+        }),
+        likesCount: counted
+      })
+    })
+  }
+
+  createLike () {
+    const { data, profile } = this.props
+    this.props.createLike({
+      variables: {
+        postId: data.id,
+        userId: profile.userId,
+        value: !this.state.like.value
+      }
+    }).then((res) => {
+      this.setState({
+        like: res.data.createLike,
+        likesCount: ++this.state.likesCount
+      })
+    })
+  }
+
+  handleIconClick () {
+    const { data } = this.props
+    if (data.selfLikes && data.selfLikes.length === 1) {
+      this.updateLike()
+    } else {
+      this.createLike()
+    }
+
+    if (!this.state.like.value) {
       const sound = new global.Audio()
       sound.src = PopSound
       sound.play()
     }
+  }
 
-    this.setState({
-      liked: !this.state.liked
-    })
+  componentWillMount () {
+    const { data } = this.props
+    if (data.selfLikes && data.selfLikes.length > 0) {
+      this.setState({
+        like: data.selfLikes[0],
+        likesCount: data.likes.length
+      })
+    }
   }
 
   render () {
     const { data } = this.props
-     /* eslint-disable no-return-assign */
     return (
-      <SCItem className="post-item" data-liked={this.state.liked}>
+      <SCItem className="post-item" data-liked={this.state.like.value}>
         <SCColumn>
           <SCImg src={data.channel.image} alt=""/>
         </SCColumn>
@@ -156,13 +219,34 @@ class PostItem extends Component {
             <SCImg className="svg-icon"/>
           </div>
           <div className="post-item-action__count">
-            342
+            {this.state.likesCount}
           </div>
         </SCColumnIcon>
       </SCItem>
     )
-    /* eslint-enable no-return-assign */
   }
 }
 
-export default PostItem
+const updateLike = gql`
+  mutation updateLike ($id: ID!, $value: Boolean) {
+    updateLike (id: $id, value: $value) {
+      value
+    }
+  }
+`
+
+const createLike = gql`
+  mutation createLike ($value: Boolean, $postId: ID!, $userId: ID!) {
+    createLike (value: $value, postId: $postId, userId: $userId) {
+      id
+      value
+    }
+  }
+`
+
+const PostItemWithData = compose(
+  graphql(updateLike, { name: 'updateLike' }),
+  graphql(createLike, { name: 'createLike' })
+)(PostItem)
+
+export default PostItemWithData
