@@ -175,7 +175,12 @@ class PostItem extends Component {
   }
 
   handleIconClick () {
-    const { data } = this.props
+    const { data, profile } = this.props
+    if (!profile || !profile.userId) {
+      window.alert('You need to login')
+      return false
+    }
+
     if (data.selfLikes && data.selfLikes.length === 1) {
       this.updateLike()
     } else {
