@@ -96,11 +96,11 @@ class App extends Component {
       })
     }
 
-    window.FB.Event.subscribe('auth.login', function (response) {
+    window.FB.Event.subscribe('auth.login', (response) => {
       this.dispatchInitProfile(response)
     })
 
-    window.FB.Event.subscribe('auth.logout', function (response) {
+    window.FB.Event.subscribe('auth.logout', (response) => {
       dispatch(resetAuth())
       window.location.reload()
     })
