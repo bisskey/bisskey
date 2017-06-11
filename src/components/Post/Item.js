@@ -6,6 +6,8 @@ import styled, { keyframes } from 'styled-components'
 import gql from 'graphql-tag'
 // $FlowFixMe
 import { graphql, compose } from 'react-apollo'
+// $FlowFixMe
+import throttle from 'lodash.throttle'
 
 import type { PostDataItem } from './type'
 
@@ -174,7 +176,7 @@ class PostItem extends Component {
     })
   }
 
-  handleIconClick () {
+  handleLike () {
     const { data, profile } = this.props
     if (!profile || !profile.userId) {
       window.alert('You need to login')
@@ -192,6 +194,10 @@ class PostItem extends Component {
       sound.src = PopSound
       sound.play()
     }
+  }
+
+  handleIconClick () {
+    this.handleLike()
   }
 
   componentWillMount () {
@@ -223,7 +229,7 @@ class PostItem extends Component {
           </div>
         </SCColumnDetail>
         <SCColumnIcon className="post-item-action">
-          <div className="post-item-action__icon" onClick={this.handleIconClick.bind(this)}>
+          <div className="post-item-action__icon" onClick={throttle(this.handleIconClick.bind(this), 2000)}>
             <SCImg className="svg-icon"/>
           </div>
           <div className="post-item-action__count">
