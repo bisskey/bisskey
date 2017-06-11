@@ -39,11 +39,13 @@ const SCItem = styled.div`
   margin: 5px 0;
   &[data-liked="true"] {
     .post-item-action__icon {
-      animation: ${thumbsAnim} .5s ease-in-out;
-    }
-    .post-item-action__count {
       color: #0ab2ff;
       font-size: .8rem;
+    }
+  }
+  .post-item-action__icon {
+    &.pop {
+      animation: ${thumbsAnim} .5s ease-in-out;
     }
   }
   .post-item-action {
@@ -51,6 +53,7 @@ const SCItem = styled.div`
   }
   .post-item-action__icon {
     .svg-icon {
+      pointer-events: none;
       background-image : url(${props => props['data-liked'] ? ThumbsUpActive : ThumbsUp});
     }
   }
@@ -125,6 +128,21 @@ class PostItem extends Component {
       },
       likesCount: 0
     }
+
+    this.handleLike = throttle(this.handleLike.bind(this), 2000)
+  }
+
+  componentWillMount () {
+    const { data } = this.props
+    let selfLikes = this.state.like
+    if (data.selfLikes && data.selfLikes.length > 0) {
+      selfLikes = data.selfLikes[0]
+    }
+
+    this.setState({
+      like: selfLikes,
+      likesCount: data.likes.length
+    })
   }
 
   parseBissKey (bissKey: string): string {
@@ -176,7 +194,17 @@ class PostItem extends Component {
     })
   }
 
-  handleLike () {
+  handleLike = (event: MouseEvent) => {
+    if (event.target) {
+      (event.target: any).classList.add('pop')
+      // Play sound if it's a like action
+      if (!this.state.like.value) {
+        const sound = new global.Audio()
+        sound.src = PopSound
+        sound.play()
+      }
+    }
+
     const { data, profile } = this.props
     if (!profile || !profile.userId) {
       window.alert('You need to login')
@@ -189,28 +217,17 @@ class PostItem extends Component {
       this.createLike()
     }
 
-    if (!this.state.like.value) {
-      const sound = new global.Audio()
-      sound.src = PopSound
-      sound.play()
-    }
+    setTimeout(() => {
+      if (event.target) {
+        (event.target: any).classList.remove('pop')
+      }
+    }, 1000)
   }
 
-  handleIconClick () {
-    this.handleLike()
-  }
-
-  componentWillMount () {
-    const { data } = this.props
-    let selfLikes = this.state.like
-    if (data.selfLikes && data.selfLikes.length > 0) {
-      selfLikes = data.selfLikes[0]
-    }
-
-    this.setState({
-      like: selfLikes,
-      likesCount: data.likes.length
-    })
+  _handleIconClick = (event: MouseEvent) => {
+    // $FlowFixMe
+    event.persist() // eslint-disable-line func-call-spacing
+    this.handleLike(event)
   }
 
   render () {
@@ -229,7 +246,7 @@ class PostItem extends Component {
           </div>
         </SCColumnDetail>
         <SCColumnIcon className="post-item-action">
-          <div className="post-item-action__icon" onClick={throttle(this.handleIconClick.bind(this), 2000)}>
+          <div className="post-item-action__icon" onClick={this._handleIconClick}>
             <SCImg className="svg-icon"/>
           </div>
           <div className="post-item-action__count">
