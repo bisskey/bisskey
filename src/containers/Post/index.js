@@ -37,7 +37,7 @@ class Post extends Component {
 
 const PostQuery = gql`
   query getPost ($self: String) {
-    allPosts {
+    allPosts (orderBy: createdAt_DESC) {
       id
       createdAt
       value
