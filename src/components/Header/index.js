@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import Menu from './menu'
 
 import { color } from '../../constants/styles'
+import { media } from '../../utils/style'
 
 import type { authStateType } from '../../reducers/auth'
 
@@ -17,6 +18,10 @@ const SCHeader = styled.header`
   align-items: center;
   text-transform: capitalize;
   color: ${color.headerLightWhite};
+  ${media.phone`
+    position: fixed;
+    bottom: 0;
+  `}
   a {
     color: #FFF;
     text-decoration: none;

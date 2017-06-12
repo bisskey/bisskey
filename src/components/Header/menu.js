@@ -10,10 +10,12 @@ import GearIcon from './icons/gear'
 import PlusIcon from './icons/plus'
 
 import { color } from '../../constants/styles'
+import { media } from '../../utils/style'
 
 const SCIcon = styled.div`
   width: 30px;
   margin: 1px auto;
+  ${media.phone`width: 25px;`}
 `
 
 const SCUl = styled.ul`
@@ -31,6 +33,8 @@ const SCLi = styled.li`
   text-align: center;
   font-weight: 300;
   display: flex;
+  white-space: nowrap;
+  ${media.phone`font-size: 0.8rem;`}
   svg {
     fill: ${color.headerLightWhite};
   }
@@ -58,12 +62,18 @@ const SCLiSpecial = styled(SCLi)`
     .header-menu__icon {
       top: 3px;
       display: initial;
+      ${media.phone`
+        top: 0px !important;
+        display: block !important;
+      `}
       svg {
         width: 55px;
+        ${media.phone`width: inherit;`}
       }
     }
     .header-menu__label {
       display: none;
+      ${media.phone`display: block;`}
     }
     &.active {
       &:before {
@@ -80,7 +90,8 @@ const SCLiSpecial = styled(SCLi)`
       top: 0rem;
       border-radius: 100%;
       z-index: 0;
-      transform: translateX(-50%)
+      transform: translateX(-50%);
+      ${media.phone`display: none;`}
     }
   }
 `

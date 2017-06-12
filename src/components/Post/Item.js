@@ -15,6 +15,7 @@ import ThumbsUp from '../../assets/icons/thumbs-up.svg'
 import ThumbsUpActive from '../../assets/icons/thumbs-up-active.svg'
 // $FlowFixMe
 import PopSound from '../../assets/sounds/pop.wav'
+import { media } from '../../utils/style'
 
 const thumbsAnim = keyframes`
   5% {
@@ -89,6 +90,9 @@ const SCColumnDetail = styled(SCColumn)`
   flex: 4;
   padding: 0 1rem;
   padding-left: 2rem;
+  ${media.phone`
+    font-size: 14px;
+  `}
   h2, h4 {
     margin: 0;
   }

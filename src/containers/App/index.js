@@ -23,6 +23,7 @@ import { initAuth, resetAuth } from '../../actions/auth'
 import { initProfile } from '../../actions/profile'
 
 import { color } from '../../constants/styles'
+import { media } from '../../utils/style'
 
 import Header from '../../components/Header'
 
@@ -31,6 +32,12 @@ const SCWrapper = styled.div`
   min-height: 100vh;
   max-width: 520px;
   margin: 0 auto;
+  padding-bottom: 2em;
+  ${media.phone`padding-bottom: 5em;`}
+`
+
+const SCMain = styled.div`
+  padding-top: 10px;
 `
 
 class App extends Component {
@@ -115,11 +122,11 @@ class App extends Component {
             onLoad={this.handleScriptLoad.bind(this)}
           />
           <Header {...this.props}/>
-          <div id="main">
+          <SCMain id="main">
             <Route exact path="/" render={() => <Post {...this.props} />} />
             <Route exact path="/about" render={() => <h1>About Page</h1>}/>
             <Route exact path="/profile" component={Profile}/>
-          </div>
+          </SCMain>
         </SCWrapper>
       </Router>
     )
