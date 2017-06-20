@@ -17,6 +17,7 @@ import {
 } from '../../utils/fb'
 
 import Post from '../../containers/Post'
+import AddPost from '../../containers/Post/add'
 import Profile from '../../containers/Profile'
 
 import { initAuth, resetAuth } from '../../actions/auth'
@@ -126,6 +127,7 @@ class App extends Component {
             <Route exact path="/" render={() => <Post {...this.props} />} />
             <Route exact path="/about" render={() => <h1>About Page</h1>}/>
             <Route exact path="/profile" component={Profile}/>
+            <Route exact path="/add-post" component={AddPost}/>
           </SCMain>
         </SCWrapper>
       </Router>

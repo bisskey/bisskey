@@ -19,3 +19,13 @@ export const media = Object.keys(sizes).reduce((accumulator, label) => {
   `
   return accumulator
 }, {})
+
+export const clearFix = () => {
+  return `
+    &:after {
+      display: table;
+      content: "";
+      clear: both;
+    }
+  `
+}
