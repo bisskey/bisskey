@@ -22,7 +22,7 @@ const SCSelect = styled(RSelect)`
 
 class Select extends Component {
   state: {
-    value: string | null,
+    value: Object | null,
     options: Object[]
   }
 
@@ -40,13 +40,8 @@ class Select extends Component {
     }
   }
 
-  _changeValue (val: Object) {
-    const { value } = val
-    if (value) {
-      this.setState({
-        value
-      })
-    }
+  _changeValue (value: Object) {
+    this.setState({ value })
   }
 
   render () {
@@ -56,6 +51,8 @@ class Select extends Component {
         value={this.state.value}
         options={this.state.options}
         searchable={true}
+        clearable={true}
+        simpleValue
         onChange={this._changeValue.bind(this)}
         placeholder={this.props.placeholder}
       />
