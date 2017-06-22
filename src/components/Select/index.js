@@ -20,7 +20,7 @@ const SCSelect = styled(RSelect)`
   }
 `
 
-type selectProps = {
+export type selectProps = {
   value: string,
   label: string
 }
