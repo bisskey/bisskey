@@ -27,11 +27,22 @@ class Post extends Component {
     return result
   }
 
+  _handleClick () {
+    this.props.data.refetch()
+  }
+
   render () {
     const data = this.parseData(this.props.data.allPosts)
-    return this.props.data.loading
+    const result = this.props.data.loading
       ? <div>Loading ...</div>
       : <CPost data={data} profile={this.props.profile}/>
+
+    return (
+      <div>
+        <button onClick={this._handleClick.bind(this)}>Refresh</button>
+        { result }
+      </div>
+    )
   }
 }
 
@@ -64,6 +75,7 @@ const PostWithData = graphql(PostQuery, {
       variables: {
         self: (profile && profile.id) || ''
       },
+      pollInterval: 5000,
       fetchPolicy: true
     }
   }

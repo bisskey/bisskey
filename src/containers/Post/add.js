@@ -49,9 +49,9 @@ class PostAdd extends Component {
           channelId,
           userId: this.props.profile.userId
         }
-      }).then(() => window.alert('Sukses'))
+      }).then(() => window.alert('Sukses membuat bisskey'))
     } else {
-      window.alert('That\'s is not bisskey key')
+      window.alert('Kode bisskey salah.')
     }
   }
 
