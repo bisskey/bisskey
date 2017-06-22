@@ -75,7 +75,6 @@ const PostWithData = graphql(PostQuery, {
       variables: {
         self: (profile && profile.id) || ''
       },
-      pollInterval: 5000,
       fetchPolicy: true
     }
   }
