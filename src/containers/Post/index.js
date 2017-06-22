@@ -31,6 +31,10 @@ class Post extends Component {
     this.props.data.refetch()
   }
 
+  componentWillReceiveProps () {
+    this._handleClick()
+  }
+
   render () {
     const data = this.parseData(this.props.data.allPosts)
     const result = this.props.data.loading
