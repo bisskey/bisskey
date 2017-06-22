@@ -127,7 +127,7 @@ class App extends Component {
             <Route exact path="/" render={() => <Post {...this.props} />} />
             <Route exact path="/about" render={() => <h1>About Page</h1>}/>
             <Route exact path="/profile" component={Profile}/>
-            <Route exact path="/add-post" component={AddPost}/>
+            <Route exact path="/add-post" render={() => <AddPost {...this.props} />}/>
           </SCMain>
         </SCWrapper>
       </Router>

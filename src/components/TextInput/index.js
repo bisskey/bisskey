@@ -25,8 +25,11 @@ const SCInput = styled.input`
 `
 
 class TextInput extends Component {
+  input: HTMLElement
   render () {
-    const textInput = <SCInput type="text" placeholder={this.props.placeholder}/>
+    /* eslint-disable no-return-assign */
+    const textInput = <SCInput innerRef={ input => this.input = input } type="text" {...this.props}/>
+    /* eslint-enable */
 
     return this.props.label
       ? <Label text={this.props.label}>{textInput}</Label>
