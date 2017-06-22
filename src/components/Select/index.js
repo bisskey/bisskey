@@ -20,23 +20,32 @@ const SCSelect = styled(RSelect)`
   }
 `
 
+type selectProps = {
+  value: string,
+  label: string
+}
+
 class Select extends Component {
+  props: {
+    options: Array<selectProps> | null,
+    placeholder: string
+  }
+
+  static defaultProps = {
+    options: null,
+    placeholder: ''
+  }
+
   state: {
     value: Object | null,
-    options: Object[]
+    options: Array<selectProps> | null
   }
 
   constructor (props: Object) {
     super(props)
     this.state = {
       value: null,
-      options: [
-        { value: 'one', label: 'One' },
-        { value: 'two', label: 'Two' },
-        { value: 'three', label: 'Three' },
-        { value: 'four', label: 'Four' },
-        { value: 'five', label: 'Five' }
-      ]
+      options: this.props.options
     }
   }
 
